@@ -25,6 +25,10 @@ let modelSchema = mongoose.Schema({
         type: Number,
         required: [true, "Obligatorio"]
     },
+    stripe_price: {
+        type: String,
+        required: [true, "La etiqueta de precio generada por stripe es obligatoria"]
+    },
     stock: {
         type: Number,
         required: [true, "Obligatorio"]

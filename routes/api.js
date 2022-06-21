@@ -80,6 +80,7 @@ router.get('/products/:id', (req, res) => {
 //Register new Product
 router.post('/products/new', async (req,res)=>{
     let data = req.body;
+    console.log(data)
     let _company;
     let response = [];
     await Company.findById(data.company_id).exec((error, company)=>{
@@ -91,8 +92,10 @@ router.post('/products/new', async (req,res)=>{
             description: data.description,
             company_name: _company.company_name,
             price: parseInt(data.price),
-            stock: parseInt(data.stock)
+            stripe_price: data.stripe_price,
+            stock: 15
         });
+        console.log(_company)
         product.save((error) =>{
             if (error) {
                 let keys = Object.keys(error.errors);

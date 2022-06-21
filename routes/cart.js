@@ -3,7 +3,6 @@ const router = express.Router();
 const Product = require('../models/product');
 const Company = require('../models/company');
 const Cart = require('../models/cart');
-const { response } = require('../app');
 
 /* GET home page. */
 router.get('/:id', async (req, res) => {
@@ -37,7 +36,7 @@ router.post('/addProduct/:id', async (req,res)=>{
         else{
             let new_cart = new Cart({
                 user_id: params.id,
-                product_id: data._id,
+                product: data,
                 amount: 1
             })
             new_cart.save((error)=>{
@@ -46,9 +45,14 @@ router.post('/addProduct/:id', async (req,res)=>{
             })
         }
     })
-
 });
 
-
+router.get('/empty/:id', (req,res) => {
+    let params = req.params;
+    Cart.deleteMany({user_id: params.id}).exec((error, result)=>{
+        if(error) res.status(500).json(error)
+        res.status(200).json(result)
+    })
+});
 
 module.exports = router;
